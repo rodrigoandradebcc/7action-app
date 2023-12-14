@@ -14,10 +14,26 @@ import toast from 'react-hot-toast'
 
 interface FilterResultProps {
   handleFilter: (params?: QuizResultQueryParams) => void
+  handleGenerateRecommendation: (params?: QuizResultQueryParams) => void
 }
 
-export function FilterResult({ handleFilter }: FilterResultProps) {
-  const { handleSubmit, control } = useForm<QuizResultForm>()
+export function FilterResult({
+  handleFilter,
+  handleGenerateRecommendation,
+}: FilterResultProps) {
+  const { handleSubmit, control, getValues } = useForm<QuizResultForm>()
+
+  function handleGetGenerateRecommendation() {
+    console.log('rolando')
+
+    const values = getValues()
+    handleGenerateRecommendation({
+      assessmentId: values.assessmentId.value,
+      classeId: values.classeId.value,
+      matterId: values.matterId.value,
+      studentId: values.studentId.value,
+    })
+  }
 
   const [studentOptions, setStudentOptions] = useState<SelectType[]>([])
   const [assessmentsOptions, setAssessmentsOptions] = useState<SelectType[]>([])
@@ -93,7 +109,6 @@ export function FilterResult({ handleFilter }: FilterResultProps) {
         studentId: data.studentId.value,
       })
       toast.success('Filtrado com sucesso!')
-      // await tryUpdateCarmaker(data)
     } catch (error) {
       toast.success('Ocorreu um erro ao filtra, tente novamente mais tarde!')
     }
@@ -177,14 +192,15 @@ export function FilterResult({ handleFilter }: FilterResultProps) {
         </div>
         <div className="w-full mt-6 flex justify-end gap-4">
           <button
-            className="bg-white hover:bg-blue-100 text-blue-600 font-bold py-2 px-4 rounded border border-blue-600"
+            className="bg-white hover:bg-purple-100 text-purple-600 font-bold py-2 px-4 rounded border border-purple-600"
             type="submit"
           >
             Filtrar
           </button>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
             type="button"
+            onClick={handleGetGenerateRecommendation}
           >
             Gerar Recomendação
           </button>

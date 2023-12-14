@@ -1,7 +1,9 @@
 import { AssessmentData } from './Assessment'
 import { Options } from './Options'
 import { QuestionData } from './Question'
+import { RecommendationData } from './Recommendation'
 import { StudentData } from './Student'
+import { TotalsData } from './Totals'
 
 export interface QuizResultData {
   id: number
@@ -12,6 +14,11 @@ export interface QuizResultData {
   Question: QuestionData
   Assessment: AssessmentData
   Student: StudentData
+}
+
+export interface QuizRecommendationData {
+  recommendation: RecommendationData
+  totals: TotalsData
 }
 
 export interface QuizResultQueryParams {

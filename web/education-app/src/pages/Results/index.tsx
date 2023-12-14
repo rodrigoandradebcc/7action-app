@@ -1,10 +1,19 @@
-import { useEffect, useState } from 'react'
-import { QuizResultData, QuizResultQueryParams } from '../../types/QuizResult'
+import { useState } from 'react'
+import {
+  QuizRecommendationData,
+  QuizResultData,
+  QuizResultQueryParams,
+} from '../../types/QuizResult'
 import { FilterResult } from './components/FilterResult'
-import { getAllQuizResult } from '../../services/quiz-result-service'
+import {
+  getAllQuizResult,
+  getGenerateQuizRecommendation,
+} from '../../services/quiz-result-service'
+import { Alert } from '../../components/Alert'
 
 export function Results() {
   const [result, setResult] = useState<QuizResultData[]>([])
+  const [recommendation, setRecommendation] = useState<QuizRecommendationData>()
 
   function handleGenerateResult(params?: QuizResultQueryParams) {
     tryGetAllResults(params)
@@ -19,9 +28,38 @@ export function Results() {
     }
   }
 
+  async function tryGetGenerateRecommendation(params?: QuizResultQueryParams) {
+    try {
+      const data = await getGenerateQuizRecommendation(params)
+      setRecommendation(data)
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  function handleGetGenerateRecommendation(params?: QuizResultQueryParams) {
+    tryGetGenerateRecommendation(params)
+  }
+
   return (
     <section className="mt-5">
-      <FilterResult handleFilter={handleGenerateResult} />
+      <FilterResult
+        handleFilter={handleGenerateResult}
+        handleGenerateRecommendation={handleGetGenerateRecommendation}
+      />
+      <section className="mt-8">
+        {recommendation?.recommendation ? (
+          <>
+            <Alert message={recommendation?.recommendation.message} />
+            <Alert
+              message={`O aluno acertou ${recommendation.totals.hits} de ${recommendation.totals.errors} questões.`}
+            />
+          </>
+        ) : (
+          null!
+        )}
+      </section>
       <section className="space-y-4">
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
@@ -55,7 +93,7 @@ export function Results() {
                         scope="col"
                         className="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
                       >
-                        alunos
+                        aluno
                       </th>
                       <th
                         scope="col"
@@ -66,16 +104,6 @@ export function Results() {
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {/* {loading && (
-                          <tr>
-                            <td
-                              colSpan={6}
-                              className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center"
-                            >
-                              Carregando...{' '}
-                            </td>
-                          </tr>
-                        )} */}
                     {result?.length === 0 && (
                       <tr>
                         <td
