@@ -31,14 +31,18 @@ export function Results() {
     }
   }
 
+  function clearForm() {
+    setRecommendation(null!)
+  }
+
   async function tryGetGenerateRecommendation(params?: QuizResultQueryParams) {
     try {
       setLoading(true)
       const data = await getGenerateQuizRecommendation(params)
       setRecommendation(data)
-      console.log(data)
+      toast.success('Recomendação gerada com sucesso!')
     } catch (error) {
-      toast.success(
+      toast.error(
         'Ocorreu um erro ao gerar sua recomendação, tente novamente mais tarde!',
       )
     } finally {
@@ -56,6 +60,7 @@ export function Results() {
       <FilterResult
         handleFilter={handleGenerateResult}
         handleGenerateRecommendation={handleGetGenerateRecommendation}
+        clearForm={clearForm}
       />
       <section className="mt-8">
         {recommendation?.recommendation ? (

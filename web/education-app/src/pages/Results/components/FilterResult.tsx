@@ -15,17 +15,17 @@ import toast from 'react-hot-toast'
 interface FilterResultProps {
   handleFilter: (params?: QuizResultQueryParams) => void
   handleGenerateRecommendation: (params?: QuizResultQueryParams) => void
+  clearForm: () => void
 }
 
 export function FilterResult({
   handleFilter,
   handleGenerateRecommendation,
+  clearForm,
 }: FilterResultProps) {
   const { handleSubmit, control, getValues } = useForm<QuizResultForm>()
 
   function handleGetGenerateRecommendation() {
-    console.log('rolando')
-
     const values = getValues()
     handleGenerateRecommendation({
       assessmentId: values.assessmentId.value,
@@ -102,6 +102,7 @@ export function FilterResult({
 
   async function onSubmit(data: QuizResultForm) {
     try {
+      clearForm()
       handleFilter({
         assessmentId: data.assessmentId.value,
         classeId: data.classeId.value,
