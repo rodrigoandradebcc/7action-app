@@ -53,7 +53,9 @@ export function Results() {
           <>
             <Alert message={recommendation?.recommendation.message} />
             <Alert
-              message={`O aluno acertou ${recommendation.totals.hits} de ${recommendation.totals.errors} questões.`}
+              message={`O aluno acertou ${recommendation.totals.hits} de ${
+                recommendation.totals.errors + recommendation.totals.hits
+              } questões.`}
             />
           </>
         ) : (
