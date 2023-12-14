@@ -29,19 +29,35 @@ export function FilterResult() {
       <div className="grid grid-cols-4 gap-4">
         <div>
           <p className="text-stone-600 text-sm pb-2">Avaliação</p>
-          <ReactSelect className="w-80" options={options} />
+          <ReactSelect
+            className="w-80 z-30"
+            options={options}
+            placeholder="Selecione uma avaliação"
+          />
         </div>
         <div>
           <p className="text-stone-600 text-sm pb-2">Componente</p>
-          <ReactSelect className="w-80" options={options} />
+          <ReactSelect
+            className="w-80 z-30"
+            options={options}
+            placeholder="Selecione um componente"
+          />
         </div>
         <div>
           <p className="text-stone-600 text-sm pb-2">Turma</p>
-          <ReactSelect className="w-80" options={options} />
+          <ReactSelect
+            className="w-80 z-30"
+            options={options}
+            placeholder="Selecione uma turma"
+          />
         </div>
         <div>
           <p className="text-stone-600 text-sm pb-2">Aluno</p>
-          <ReactSelect className="w-80" options={options} />
+          <ReactSelect
+            className="w-80 z-30"
+            options={options}
+            placeholder="Selecione um aluno"
+          />
         </div>
       </div>
     </section>
