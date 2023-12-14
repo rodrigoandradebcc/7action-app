@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { QuizResultData } from '../../types/QuizResult'
+import { FilterResult } from './components/FilterResult'
 
 export function Results() {
   const [result] = useState<QuizResultData[]>([
@@ -9,6 +10,11 @@ export function Results() {
       studentId: 1,
       questionId: 1,
       assessmentId: 1,
+      Student: {
+        id: 1,
+        name: 'BRAYAN LUZ',
+        classeId: 1,
+      },
       Question: {
         id: 1,
         name: 'Q1',
@@ -31,6 +37,7 @@ export function Results() {
 
   return (
     <section className="mt-5">
+      <FilterResult />
       <section className="space-y-4">
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
@@ -109,7 +116,7 @@ export function Results() {
                             {item.Question.ability}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {item.studentId}
+                            {item.Student.name}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {item.result ? 'Sim' : 'Não'}

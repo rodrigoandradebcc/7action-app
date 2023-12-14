@@ -1,5 +1,6 @@
 import { AssessmentData } from './Assessment'
 import { QuestionData } from './Question'
+import { StudentData } from './Student'
 
 export interface QuizResultData {
   id: number
@@ -9,4 +10,5 @@ export interface QuizResultData {
   assessmentId: number
   Question: QuestionData
   Assessment: AssessmentData
+  Student: StudentData
 }
