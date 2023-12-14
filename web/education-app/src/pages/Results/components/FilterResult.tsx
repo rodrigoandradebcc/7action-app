@@ -25,12 +25,12 @@ export function FilterResult() {
   }, [])
 
   return (
-    <section className="w-full flex">
+    <section className="w-full flex flex-col">
       <div className="grid grid-cols-4 gap-4">
         <div>
           <p className="text-stone-600 text-sm pb-2">Avaliação</p>
           <ReactSelect
-            className="w-80 z-30"
+            className="col-span-full min-w-full z-30"
             options={options}
             placeholder="Selecione uma avaliação"
           />
@@ -38,7 +38,7 @@ export function FilterResult() {
         <div>
           <p className="text-stone-600 text-sm pb-2">Componente</p>
           <ReactSelect
-            className="w-80 z-30"
+            className="col-span-full min-w-full z-30"
             options={options}
             placeholder="Selecione um componente"
           />
@@ -46,7 +46,7 @@ export function FilterResult() {
         <div>
           <p className="text-stone-600 text-sm pb-2">Turma</p>
           <ReactSelect
-            className="w-80 z-30"
+            className="col-span-full min-w-full z-30"
             options={options}
             placeholder="Selecione uma turma"
           />
@@ -54,11 +54,19 @@ export function FilterResult() {
         <div>
           <p className="text-stone-600 text-sm pb-2">Aluno</p>
           <ReactSelect
-            className="w-80 z-30"
+            className="col-span-full min-w-full z-30"
             options={options}
             placeholder="Selecione um aluno"
           />
         </div>
+      </div>
+      <div className="w-full mt-6 flex justify-end">
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="button"
+        >
+          Gerar Resultado
+        </button>
       </div>
     </section>
   )
