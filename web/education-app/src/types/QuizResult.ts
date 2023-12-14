@@ -12,3 +12,12 @@ export interface QuizResultData {
   Assessment: AssessmentData
   Student: StudentData
 }
+
+export interface QuizResultQueryParams {
+  studentId: string
+  assessmentId: string
+  matterId: string
+  classeId: string
+}
+
+export interface QuizResultForm {}

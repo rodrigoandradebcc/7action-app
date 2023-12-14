@@ -35,9 +35,11 @@ export function Results() {
     },
   ])
 
+  function handleGenerateResult() {}
+
   return (
     <section className="mt-5">
-      <FilterResult />
+      <FilterResult handleFilter={handleGenerateResult} />
       <section className="space-y-4">
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
