@@ -1,4 +1,5 @@
 import { AssessmentData } from './Assessment'
+import { Options } from './Options'
 import { QuestionData } from './Question'
 import { StudentData } from './Student'
 
@@ -14,10 +15,15 @@ export interface QuizResultData {
 }
 
 export interface QuizResultQueryParams {
-  studentId: string
-  assessmentId: string
-  matterId: string
-  classeId: string
+  studentId?: string
+  assessmentId?: string
+  matterId?: string
+  classeId?: string
 }
 
-export interface QuizResultForm {}
+export interface QuizResultForm {
+  classeId: Options
+  assessmentId: Options
+  studentId: Options
+  matterId: Options
+}

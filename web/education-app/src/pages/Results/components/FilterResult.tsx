@@ -6,24 +6,23 @@ import { getAllClasses } from '../../../services/classes-service'
 import { getAllMatters } from '../../../services/matters-service'
 import { getAllAssessments } from '../../../services/assessments-service'
 import { SelectType } from '../../../components/Select/types'
+import {
+  QuizResultForm,
+  QuizResultQueryParams,
+} from '../../../types/QuizResult'
+import toast from 'react-hot-toast'
 
 interface FilterResultProps {
-  handleFilter: () => void
+  handleFilter: (params?: QuizResultQueryParams) => void
 }
 
 export function FilterResult({ handleFilter }: FilterResultProps) {
-  const { handleSubmit, control } = useForm()
+  const { handleSubmit, control } = useForm<QuizResultForm>()
 
   const [studentOptions, setStudentOptions] = useState<SelectType[]>([])
   const [assessmentsOptions, setAssessmentsOptions] = useState<SelectType[]>([])
   const [classesRoomOptions, setClassesRoomOptions] = useState<SelectType[]>([])
   const [mattersOptions, setMattersOptions] = useState<SelectType[]>([])
-
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ]
 
   async function tryGetAllStudents() {
     try {
@@ -85,6 +84,21 @@ export function FilterResult({ handleFilter }: FilterResultProps) {
     }
   }
 
+  async function onSubmit(data: QuizResultForm) {
+    try {
+      handleFilter({
+        assessmentId: data.assessmentId.value,
+        classeId: data.classeId.value,
+        matterId: data.matterId.value,
+        studentId: data.studentId.value,
+      })
+      toast.success('Filtrado com sucesso!')
+      // await tryUpdateCarmaker(data)
+    } catch (error) {
+      toast.success('Ocorreu um erro ao filtra, tente novamente mais tarde!')
+    }
+  }
+
   useEffect(() => {
     ;(async () => {
       await Promise.all([
@@ -98,80 +112,84 @@ export function FilterResult({ handleFilter }: FilterResultProps) {
 
   return (
     <section className="w-full flex flex-col">
-      <div className="grid grid-cols-4 gap-4">
-        <div>
-          <label className="text-stone-600 text-sm pb-2">Avaliação</label>
-          <Controller
-            name="selectOption"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <ReactSelect
-                {...field}
-                className="col-span-full min-w-full z-30"
-                options={assessmentsOptions}
-                placeholder="Selecione uma avaliação"
-              />
-            )}
-          />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-4 gap-4">
+          <div>
+            <label className="text-stone-600 text-sm pb-2">Avaliação</label>
+            <Controller
+              name="assessmentId"
+              control={control}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  className="col-span-full min-w-full z-30"
+                  options={assessmentsOptions}
+                  placeholder="Selecione uma avaliação"
+                />
+              )}
+            />
+          </div>
+          <div>
+            <label className="text-stone-600 text-sm pb-2">Componente</label>
+            <Controller
+              name="matterId"
+              control={control}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  className="col-span-full min-w-full z-30"
+                  options={mattersOptions}
+                  placeholder="Selecione um componente"
+                />
+              )}
+            />
+          </div>
+          <div>
+            <label className="text-stone-600 text-sm pb-2">Turma</label>
+            <Controller
+              name="classeId"
+              control={control}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  className="col-span-full min-w-full z-30"
+                  options={classesRoomOptions}
+                  placeholder="Selecione uma turma"
+                />
+              )}
+            />
+          </div>
+          <div>
+            <label className="text-stone-600 text-sm pb-2">Aluno</label>
+            <Controller
+              name="studentId"
+              control={control}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  className="col-span-full min-w-full z-30"
+                  options={studentOptions}
+                  placeholder="Selecione um aluno"
+                />
+              )}
+            />
+          </div>
         </div>
-        <div>
-          <label className="text-stone-600 text-sm pb-2">Componente</label>
-          <Controller
-            name="selectOption"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <ReactSelect
-                {...field}
-                className="col-span-full min-w-full z-30"
-                options={mattersOptions}
-                placeholder="Selecione um componente"
-              />
-            )}
-          />
+        <div className="w-full mt-6 flex justify-end gap-4">
+          <button
+            className="bg-white hover:bg-blue-100 text-blue-600 font-bold py-2 px-4 rounded border border-blue-600"
+            type="submit"
+          >
+            Filtrar
+          </button>
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="button"
+          >
+            Gerar Recomendação
+          </button>
         </div>
-        <div>
-          <label className="text-stone-600 text-sm pb-2">Turma</label>
-          <Controller
-            name="selectOption"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <ReactSelect
-                {...field}
-                className="col-span-full min-w-full z-30"
-                options={classesRoomOptions}
-                placeholder="Selecione uma turma"
-              />
-            )}
-          />
-        </div>
-        <div>
-          <label className="text-stone-600 text-sm pb-2">Aluno</label>
-          <Controller
-            name="selectOption"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <ReactSelect
-                {...field}
-                className="col-span-full min-w-full z-30"
-                options={studentOptions}
-                placeholder="Selecione um aluno"
-              />
-            )}
-          />
-        </div>
-      </div>
-      <div className="w-full mt-6 flex justify-end">
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          type="button"
-        >
-          Gerar Recomendação
-        </button>
-      </div>
+      </form>
     </section>
   )
 }

@@ -1,41 +1,23 @@
-import { useState } from 'react'
-import { QuizResultData } from '../../types/QuizResult'
+import { useEffect, useState } from 'react'
+import { QuizResultData, QuizResultQueryParams } from '../../types/QuizResult'
 import { FilterResult } from './components/FilterResult'
+import { getAllQuizResult } from '../../services/quiz-result-service'
 
 export function Results() {
-  const [result] = useState<QuizResultData[]>([
-    {
-      id: 1,
-      result: true,
-      studentId: 1,
-      questionId: 1,
-      assessmentId: 1,
-      Student: {
-        id: 1,
-        name: 'BRAYAN LUZ',
-        classeId: 1,
-      },
-      Question: {
-        id: 1,
-        name: 'Q1',
-        ability:
-          'EF01LP04 Distinguir as letras do alfabeto de outros sinais gráficos.',
-        level:
-          'Plano de ação 1. Alunos que erraram todas as questões da habilidade.',
-        matterId: 1,
-        Matter: {
-          id: 1,
-          name: 'LÍNGUA PORTUGUESA',
-        },
-      },
-      Assessment: {
-        id: 1,
-        name: 'Avaliação 1',
-      },
-    },
-  ])
+  const [result, setResult] = useState<QuizResultData[]>([])
 
-  function handleGenerateResult() {}
+  function handleGenerateResult(params?: QuizResultQueryParams) {
+    tryGetAllResults(params)
+  }
+
+  async function tryGetAllResults(params?: QuizResultQueryParams) {
+    try {
+      const data = await getAllQuizResult(params)
+      setResult(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <section className="mt-5">
