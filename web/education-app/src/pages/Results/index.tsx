@@ -10,9 +10,12 @@ import {
   getGenerateQuizRecommendation,
 } from '../../services/quiz-result-service'
 import { Alert } from '../../components/Alert'
+import toast from 'react-hot-toast'
+import { Loading } from '../../components/Loading'
 
 export function Results() {
   const [result, setResult] = useState<QuizResultData[]>([])
+  const [loading, setLoading] = useState(false)
   const [recommendation, setRecommendation] = useState<QuizRecommendationData>()
 
   function handleGenerateResult(params?: QuizResultQueryParams) {
@@ -30,11 +33,16 @@ export function Results() {
 
   async function tryGetGenerateRecommendation(params?: QuizResultQueryParams) {
     try {
+      setLoading(true)
       const data = await getGenerateQuizRecommendation(params)
       setRecommendation(data)
       console.log(data)
     } catch (error) {
-      console.error(error)
+      toast.success(
+        'Ocorreu um erro ao gerar sua recomendação, tente novamente mais tarde!',
+      )
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -44,6 +52,7 @@ export function Results() {
 
   return (
     <section className="mt-5">
+      {loading ? <Loading /> : null!}
       <FilterResult
         handleFilter={handleGenerateResult}
         handleGenerateRecommendation={handleGetGenerateRecommendation}

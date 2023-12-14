@@ -110,7 +110,7 @@ export function FilterResult({
       })
       toast.success('Filtrado com sucesso!')
     } catch (error) {
-      toast.success('Ocorreu um erro ao filtra, tente novamente mais tarde!')
+      toast.success('Ocorreu um erro ao filtrar, tente novamente mais tarde!')
     }
   }
 
